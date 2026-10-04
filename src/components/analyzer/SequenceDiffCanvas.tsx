@@ -9,6 +9,7 @@ interface SequenceDiffCanvasProps {
   variants: AnalyzedVariant[];
   selectedVariantId?: string | null;
   onSelectVariant?: (v: AnalyzedVariant) => void;
+  isAnalyzing?: boolean;
 }
 
 export const SequenceDiffCanvas: React.FC<SequenceDiffCanvasProps> = ({
@@ -17,6 +18,7 @@ export const SequenceDiffCanvas: React.FC<SequenceDiffCanvasProps> = ({
   querySeq,
   variants,
   selectedVariantId,
+  isAnalyzing = false,
 }) => {
   const isDark = theme === 'dark';
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -76,12 +78,24 @@ export const SequenceDiffCanvas: React.FC<SequenceDiffCanvasProps> = ({
   const currentSliceQuery = qSeq.slice(startIndex, startIndex + windowSize);
 
   return (
-    <div className={`rounded-xl border p-4 transition-colors ${
+    <div className={`rounded-xl border p-4 transition-all relative overflow-hidden ${
       isDark ? 'bg-[#141311] border-[#38352F]' : 'bg-[#FAF7F0] border-[#DDD4C0]'
-    }`}>
+    } ${isAnalyzing ? 'ring-2 ring-[#B89A4A]/60 shadow-lg' : ''}`}>
+      {/* High-tech Laser Beam Scanner during Analysis */}
+      {isAnalyzing && (
+        <div className="absolute inset-0 pointer-events-none z-30 overflow-hidden">
+          <div className="absolute top-0 bottom-0 w-36 bg-gradient-to-r from-transparent via-[#B89A4A]/25 to-transparent blur-md animate-laser-sweep" />
+          <div className="absolute top-0 bottom-0 w-1 bg-gradient-to-b from-[#E8D89A] via-[#B89A4A] to-[#E8D89A] shadow-[0_0_16px_#B89A4A] animate-laser-sweep" />
+          <div className="absolute top-3 right-3 flex items-center gap-2 bg-[#181715]/90 dark:bg-[#FAF7F0]/90 text-[#FAF7F0] dark:text-[#181715] px-3 py-1 rounded-full text-[11px] font-mono shadow-md backdrop-blur-md animate-pulse">
+            <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
+            <span>Scanning Alignment Matrix...</span>
+          </div>
+        </div>
+      )}
+
       <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#DDD4C0] dark:border-[#38352F] gap-2">
         <div className="flex items-center gap-2">
-          <Zap size={14} className="text-[#B89A4A] dark:text-[#E8D89A]" />
+          <Zap size={14} className={`text-[#B89A4A] dark:text-[#E8D89A] ${isAnalyzing ? 'animate-bounce' : ''}`} />
           <h4 className="text-xs font-mono font-bold tracking-wider uppercase text-[#181715] dark:text-[#FAF7F0]">
             Dual-Track Nucleotide Alignment & Mismatch Visualizer
           </h4>
@@ -128,7 +142,7 @@ export const SequenceDiffCanvas: React.FC<SequenceDiffCanvasProps> = ({
 
       <div 
         ref={scrollContainerRef}
-        className="pt-4 overflow-x-auto select-none"
+        className="pt-4 overflow-x-auto select-none relative"
       >
         <div className="inline-block min-w-full">
           <div className="flex gap-1 mb-1 font-mono text-[9px] text-[#7A7265] dark:text-[#8C8578]">

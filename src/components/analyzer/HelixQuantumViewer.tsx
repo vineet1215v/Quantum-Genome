@@ -174,18 +174,25 @@ export const HelixQuantumViewer: React.FC<HelixQuantumViewerProps> = ({
 
     const animate = () => {
       animationId = requestAnimationFrame(animate);
-      const speed = isAnalyzing ? 0.04 : 0.008;
+      const speed = isAnalyzing ? 0.065 : 0.008;
 
       if (!isDragging) {
         helixGroup.rotation.y += speed;
-        particlesGroup.rotation.y += speed * 0.5;
+        particlesGroup.rotation.y += isAnalyzing ? speed * 1.6 : speed * 0.5;
         rotationVelocity *= 0.95;
         helixGroup.rotation.y += rotationVelocity;
       }
 
       const time = clock.getElapsedTime();
-      helixGroup.rotation.z = Math.sin(time * 0.8) * 0.08;
-      particles.rotation.y = time * 0.15;
+      helixGroup.rotation.z = Math.sin(time * (isAnalyzing ? 2.5 : 0.8)) * (isAnalyzing ? 0.16 : 0.08);
+      particles.rotation.y = time * (isAnalyzing ? 0.6 : 0.15);
+
+      if (isAnalyzing) {
+        const pulse = Math.sin(time * 6) * 1.5;
+        camera.position.z = 36 + pulse;
+      } else {
+        camera.position.z = 36;
+      }
 
       renderer.render(scene, camera);
     };
@@ -217,11 +224,17 @@ export const HelixQuantumViewer: React.FC<HelixQuantumViewerProps> = ({
   }, [theme, isAnalyzing]);
 
   return (
-    <div className="relative w-full h-full min-h-[180px] rounded-xl overflow-hidden cursor-grab active:cursor-grabbing select-none">
+    <div className={`relative w-full h-full min-h-[180px] rounded-xl overflow-hidden cursor-grab active:cursor-grabbing select-none transition-all duration-500 ${
+      isAnalyzing ? 'animate-quantum-pulse' : ''
+    }`}>
       <div ref={mountRef} className="absolute inset-0 w-full h-full" />
       <div className="absolute top-3 left-3 pointer-events-none flex items-center gap-2">
-        <span className="px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-wider font-semibold border backdrop-blur-md transition-colors bg-white/40 dark:bg-black/50 border-[#DDD4C0] dark:border-[#38352F] text-[#181715] dark:text-[#E8D89A]">
-          3D Quantum Helix
+        <span className={`px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-wider font-semibold border backdrop-blur-md transition-colors ${
+          isAnalyzing
+            ? 'bg-[#B89A4A] text-[#11110F] border-[#B89A4A] shadow-md animate-pulse'
+            : 'bg-white/40 dark:bg-black/50 border-[#DDD4C0] dark:border-[#38352F] text-[#181715] dark:text-[#E8D89A]'
+        }`}>
+          {isAnalyzing ? '⚡ QAOA Accelerating' : '3D Quantum Helix'}
         </span>
         <span className="text-[11px] font-mono text-[#5C5549] dark:text-[#A8A092] bg-white/30 dark:bg-black/40 px-2 py-0.5 rounded backdrop-blur-xs">
           Locus: {activeLocus}
@@ -229,9 +242,11 @@ export const HelixQuantumViewer: React.FC<HelixQuantumViewerProps> = ({
       </div>
 
       <div className="absolute bottom-3 right-3 pointer-events-none flex items-center gap-2 text-[10px] font-mono text-[#5C5549] dark:text-[#A8A092] bg-white/30 dark:bg-black/40 px-2.5 py-1 rounded backdrop-blur-xs">
-        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-        <span>Drag to rotate</span>
+        <span className={`w-1.5 h-1.5 rounded-full ${isAnalyzing ? 'bg-amber-400 animate-ping' : 'bg-emerald-500 animate-pulse'}`} />
+        <span>{isAnalyzing ? 'Simulating Qubits...' : 'Drag to rotate'}</span>
       </div>
     </div>
   );
 };
+
+
