@@ -1,0 +1,183 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+    
+    --bg-paper: #F5F0E6;
+    --bg-paper-light: #FAF7F0;
+    --bg-paper-dark: #ECE5D6;
+    --border-paper: #DDD4C0;
+    --border-paper-light: #EBE5D8;
+    
+    --charcoal-900: #11110F;
+    --charcoal-800: #181715;
+    --charcoal-700: #24221E;
+    --charcoal-600: #38352F;
+    
+    --accent-gold: #B89A4A;
+    --accent-gold-light: #D4B76B;
+    --accent-yellow: #E8D89A;
+    
+    --sci-green: #2E6B48;
+    --sci-amber: #B46927;
+    --sci-red: #A33A3A;
+  }
+
+  body {
+    background-color: var(--bg-paper);
+    color: var(--charcoal-800);
+    font-family: var(--font-sans);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  #root {
+    min-height: 100vh;
+    width: 100%;
+    margin: 0;
+    text-align: left;
+    display: block;
+  }
+}
+
+.font-serif-sc {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+.font-mono-sc {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+/* Custom scrollbar for technical genomics & quantum views */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #ECE5D6;
+}
+::-webkit-scrollbar-thumb {
+  background: #C4B9A1;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #A6997E;
+}
+
+.dark-scroll::-webkit-scrollbar-track {
+  background: #181715;
+}
+.dark-scroll::-webkit-scrollbar-thumb {
+  background: #38352F;
+}
+.dark-scroll::-webkit-scrollbar-thumb:hover {
+  background: #524E45;
+}
+
+/* Scientific grid paper subtle pattern */
+.bg-paper-grid {
+  background-image: radial-gradient(#D5CCA8 0.75px, transparent 0.75px), radial-gradient(#D5CCA8 0.75px, #F5F0E6 0.75px);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+}
+
+.bg-charcoal-grid {
+  background-image: radial-gradient(#2A2822 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* =========================================================================
+   DARK MODE COMPREHENSIVE OVERRIDES FOR ULTRA-CLEAR LEGIBILITY
+   ========================================================================= */
+html.dark {
+  color-scheme: dark;
+}
+
+html.dark body {
+  background-color: #11110F;
+  color: #FAF7F0;
+}
+
+/* Surface backgrounds */
+html.dark .bg-\[\#F5F0E6\] {
+  background-color: #11110F !important;
+}
+
+html.dark .bg-\[\#FAF7F0\] {
+  background-color: #181715 !important;
+}
+
+html.dark .bg-\[\#EFE9DC\],
+html.dark .bg-\[\#EFE9DC\]\/60,
+html.dark .bg-\[\#EFE9DC\]\/70 {
+  background-color: #24221E !important;
+}
+
+html.dark .bg-\[\#F2EBDB\],
+html.dark .bg-\[\#F2EBDB\]\/60 {
+  background-color: #201E1A !important;
+}
+
+/* Borders */
+html.dark .border-\[\#DDD4C0\] {
+  border-color: #38352F !important;
+}
+
+html.dark .border-\[\#EBE5D8\] {
+  border-color: #262420 !important;
+}
+
+/* Typography contrast */
+html.dark .text-\[\#181715\] {
+  color: #FAF7F0 !important;
+}
+
+html.dark .text-\[\#38352F\] {
+  color: #DDD4C0 !important;
+}
+
+html.dark .text-\[\#5C5549\] {
+  color: #A8A092 !important;
+}
+
+/* Hover surfaces */
+html.dark .hover\:bg-\[\#EAE2D0\]:hover,
+html.dark .hover\:bg-\[\#F2EBDB\]:hover {
+  background-color: #282621 !important;
+}
+
+/* Grid pattern */
+html.dark .bg-paper-grid {
+  background-image: radial-gradient(#2E2B25 1px, transparent 1px) !important;
+  background-size: 28px 28px !important;
+  background-color: #11110F !important;
+}
+
+/* In dark mode, active elements stand out clearly with gold border and champagne text */
+html.dark aside button.bg-\[\#181715\] {
+  background-color: #24221E !important;
+  border: 1px solid rgba(184, 154, 74, 0.5) !important;
+  color: #E8D89A !important;
+}
+
+html.dark .hover\:text-\[\#181715\]:hover {
+  color: #FAF7F0 !important;
+}
+
+/* Dark mode scrollbars */
+html.dark ::-webkit-scrollbar-track {
+  background: #181715;
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: #38352F;
+}
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: #524E45;
+}
+
