@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { LandingPage } from './components/landing/LandingPage';
-import { WorkspaceLayout } from './components/layout/WorkspaceLayout';
-import { NavigationTab, ThemeMode } from './types';
+import { GenomicAnalyzerPage } from './components/analyzer/GenomicAnalyzerPage';
+import { ThemeMode } from './types';
 
 export function App() {
   const [currentView, setCurrentView] = useState<'landing' | 'workspace'>('landing');
-  const [initialWorkspaceTab, setInitialWorkspaceTab] = useState<NavigationTab>('dashboard');
   const [reducedMotion, setReducedMotion] = useState<boolean>(false);
   const [theme, setTheme] = useState<ThemeMode>(() => {
     const saved = localStorage.getItem('quantumgen_theme');
@@ -26,8 +25,7 @@ export function App() {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
   };
 
-  const handleEnterWorkspace = (tab: NavigationTab = 'dashboard') => {
-    setInitialWorkspaceTab(tab);
+  const handleEnterWorkspace = () => {
     setCurrentView('workspace');
   };
 
@@ -41,7 +39,7 @@ export function App() {
 
   return (
     <div className={`min-h-screen w-full font-sans transition-colors duration-200 ${
-      theme === 'dark' ? 'bg-[#11110F] text-[#FAF7F0]' : 'bg-[#F5F0E6] text-[#181715]'
+      theme === 'dark' ? 'bg-[#0E0D0B] text-[#FAF7F0]' : 'bg-[#F7F4EB] text-[#181715]'
     }`}>
       {currentView === 'landing' ? (
         <LandingPage
@@ -52,13 +50,10 @@ export function App() {
           onToggleTheme={handleToggleTheme}
         />
       ) : (
-        <WorkspaceLayout
-          initialTab={initialWorkspaceTab}
-          onOpenLanding={handleOpenLanding}
-          reducedMotion={reducedMotion}
-          onToggleReducedMotion={handleToggleReducedMotion}
+        <GenomicAnalyzerPage
           theme={theme}
           onToggleTheme={handleToggleTheme}
+          onBackToLanding={handleOpenLanding}
         />
       )}
     </div>
@@ -66,3 +61,4 @@ export function App() {
 }
 
 export default App;
+

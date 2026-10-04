@@ -21,6 +21,61 @@ export type NavigationTab =
 
 export type ScientificStatus = 'EXPERIMENTAL' | 'SIMULATED' | 'THEORETICAL' | 'ILLUSTRATIVE';
 
+export type VariantType = 'SNP' | 'INS' | 'DEL';
+export type VariantOrigin = 'Somatic' | 'Germline';
+export type ClinicalSignificance = 'Cancerous / Pathogenic' | 'Likely Pathogenic' | 'VUS' | 'Likely Benign' | 'Benign';
+export type MutationClassification = 
+  | 'Missense'
+  | 'Nonsense'
+  | 'Frameshift InDel'
+  | 'In-frame Deletion'
+  | 'In-frame Insertion'
+  | 'Splice Site'
+  | 'Synonymous'
+  | 'Intronic / Non-coding';
+
+export interface AnalyzedVariant {
+  id: string;
+  chromosome: string;
+  position: number;
+  ref: string;
+  alt: string;
+  type: VariantType;
+  origin: VariantOrigin;
+  clinicalSignificance: ClinicalSignificance;
+  isCancerous: boolean;
+  mutationClass: MutationClassification;
+  whatVariantIsIt: string;
+  geneSymbol: string;
+  proteinChange?: string;
+  cDNAChange?: string;
+  depth: number;
+  altDepth: number;
+  alleleFrequency: number;
+  quality: number;
+  cancerType?: string;
+  confidence: number;
+  clinVarId?: string;
+  cosmicId?: string;
+  functionalSummary?: string;
+}
+
+export interface PresetDataset {
+  id: string;
+  title: string;
+  subtitle: string;
+  targetGene: string;
+  chromosome: string;
+  refFastaHeader: string;
+  refSequence: string;
+  queryFastaHeader: string;
+  querySequence: string;
+  sampleType: string;
+  variants: AnalyzedVariant[];
+  qualityScores: { pos: number; score: number; errorRate: number }[];
+  vafDistribution: { bin: string; count: number; category: string }[];
+}
+
 export type ThemeMode = 'light' | 'dark';
 
 
