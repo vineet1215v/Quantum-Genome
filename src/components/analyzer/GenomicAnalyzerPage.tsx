@@ -793,7 +793,7 @@ export const GenomicAnalyzerPage: React.FC<GenomicAnalyzerPageProps> = ({
                   </span>
                 </div>
                 <p className="text-[11px] text-[#5C5549] dark:text-[#A8A092] mt-0.5">
-                  Tumor-Acquired vs Inherited Constitutional
+                  Tumor-Acquired vs Inherited Constitutional 
                 </p>
               </div>
 
