@@ -10,6 +10,7 @@ interface SequenceDiffCanvasProps {
   selectedVariantId?: string | null;
   onSelectVariant?: (v: AnalyzedVariant) => void;
   isAnalyzing?: boolean;
+  activeStep?: number;
 }
 
 export const SequenceDiffCanvas: React.FC<SequenceDiffCanvasProps> = ({
@@ -19,6 +20,7 @@ export const SequenceDiffCanvas: React.FC<SequenceDiffCanvasProps> = ({
   variants,
   selectedVariantId,
   isAnalyzing = false,
+  activeStep = 0,
 }) => {
   const isDark = theme === 'dark';
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -94,13 +96,20 @@ export const SequenceDiffCanvas: React.FC<SequenceDiffCanvasProps> = ({
       )}
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#DDD4C0] dark:border-[#38352F] gap-2">
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <Zap size={14} className={`text-[#B89A4A] dark:text-[#E8D89A] ${isAnalyzing ? 'animate-bounce' : ''}`} />
           <h4 className="text-xs font-mono font-bold tracking-wider uppercase text-[#181715] dark:text-[#FAF7F0]">
             Dual-Track Nucleotide Alignment & Mismatch Visualizer
           </h4>
           <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#B89A4A]/20 text-[#B89A4A] dark:text-[#E8D89A] font-semibold">
             {mismatches.length} Mismatches / InDels Highlighted
+          </span>
+          <span className={`text-[10px] font-mono px-2 py-0.5 rounded-md border transition-all ${
+            activeStep === 4 || activeStep === 7
+              ? 'bg-[#B89A4A] text-black border-[#B89A4A] font-bold animate-pulse'
+              : 'bg-[#B89A4A]/10 text-[#B89A4A] dark:text-[#E8D89A] border-[#B89A4A]/30'
+          }`}>
+            ⚡ Simulated by Step 4 (Mapping) &amp; Step 7 (Variant Calling)
           </span>
         </div>
 
